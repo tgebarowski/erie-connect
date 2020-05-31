@@ -1,5 +1,5 @@
 erie_connect - Erie Connect cloud client
-============
+========================================
 
 .. image:: https://img.shields.io/pypi/v/erie_connect.svg
     :target: https://pypi.python.org/pypi/erie_connect
