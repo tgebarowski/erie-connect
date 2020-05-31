@@ -27,7 +27,7 @@ setup(
 
     packages=find_packages(exclude=('tests',)),
 
-    install_requires=[requests==2.23.0, simplejson==3.17.0],
+    install_requires=['requests>=2.23.0', 'simplejson>=3.17.0'],
 
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
