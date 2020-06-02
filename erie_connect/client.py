@@ -131,8 +131,7 @@ class ErieConnect(object):
     def _setup_if_needed(self):
         """Setup client by logging in and selecting default device"""
         if self._auth == None: self.login()
-        if self._device == None: self._select_first_active_device()
-
+        if self._device == None: self.select_first_active_device()
 
     def _get(self, path: str, params=None, **kwargs):
         """Handles API GET request."""
