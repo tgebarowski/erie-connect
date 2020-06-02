@@ -106,6 +106,12 @@ class ErieConnect(object):
             self._delete('/auth/sign_out')
         self._auth = None
 
+    def select_first_active_device(self):
+        """List devices and select first available device as the one on which all queries will be invoked"""
+        response = self.list_watersofteners()
+        self._device = ErieConnect.Device(id=response.content[0]['profile']['id'],
+                                          name=response.content[0]['profile']['name'])
+
     @property
     def is_logged_in(self):
         return self._auth != None
@@ -121,12 +127,6 @@ class ErieConnect(object):
     @property
     def auth(self):
         return self._auth
-
-    def _select_first_active_device(self):
-        """List devices and select first available device as the one on which all queries will be invoked"""
-        response = self.list_watersofteners()
-        self._device = ErieConnect.Device(id=response.content[0]['profile']['id'],
-                                          name=response.content[0]['profile']['name'])
 
     def _setup_if_needed(self):
         """Setup client by logging in and selecting default device"""
