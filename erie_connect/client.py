@@ -112,7 +112,15 @@ class ErieConnect(object):
 
     @property
     def is_device_selected(self):
-        return self._device != None               
+        return self._device != None
+
+    @property
+    def device(self):
+        return self._device
+
+    @property
+    def auth(self):
+        return self._auth
 
     def _select_first_active_device(self):
         """List devices and select first available device as the one on which all queries will be invoked"""
