@@ -30,14 +30,12 @@ class ErieConnect(object):
         self._device = device
         self._base_url = "https://erieconnect.eriewatertreatment.com/api/erieapp/"
         self._api = "v1"
+        self._session = Session()
+        self._session.verify = False
         self._debugmode = False
     
     def login(self):
         """Login to Erie Connect using provided username and password and get authorization token"""
-        self._debuglog("Creating new session")
-        self._session = Session()
-        self._session.verify = False
-
         response = self._post('auth/sign_in', data={'email': self._username, 'password' : self._password})
         self._debuglog(str(response))
         self._auth = ErieConnect.Auth(access_token=response.headers["Access-Token"],
@@ -99,6 +97,18 @@ class ErieConnect(object):
         response = self._get(f'/water_softeners/{self._device.id}/settings')
         self._debuglog(str(response.content))
         return response
+
+    def info(self):
+        """
+        Get device info including service date, total water consumption etc.
+        Note: This method may do initial setup when needed. If user is not logged in
+              it will do so and will select first available device.
+        """
+        self._setup_if_needed()
+        self._debuglog("Get Info")
+        response = self._get(f'/water_softeners/{self._device.id}/info')
+        self._debuglog(str(response.content))
+        return response        
 
     def logout(self):
         """Logout currently logged in user"""
@@ -213,7 +223,7 @@ class ErieConnect(object):
 
 
 if __name__ == "__main__":
-    client = ErieConnect('foo', 'bar')
+    client = ErieConnect('foo@bar', 'passwd')
     client.login()
     client.dashboard()
     client.flow()
