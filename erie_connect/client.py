@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from requests import Session
 from requests import RequestException
+from requests import HTTPError
 from typing import Dict
 from simplejson.errors import JSONDecodeError
 
@@ -159,12 +160,20 @@ class ErieConnect(object):
         """Function to prepare and execute request"""
         # Request data
         url = self._build_url(api, path)
-        
-        response = self._execute_request(request_method, url, params=params, **kwargs)
-        self._debuglog("Successful returned data")
-        self._debuglog("API: " + api)
-        self._debuglog(str(response))
-        return response
+
+        try:
+            response = self._execute_request(request_method, url, params=params, **kwargs)
+            self._debuglog("Successful returned data")
+            self._debuglog("API: " + api)
+            return response
+        except HTTPError as exception:
+            if exception.response.status_code == 401 and retry_once:
+                self._debuglog("Retry after 401")
+                try:
+                    response = self._request(request_method, api, path, params, False)
+                    return response
+                except (RequestException, JSONDecodeError) as exception:
+                    raise exception                    
 
     def _execute_request(self, method, url, params, **kwargs):
         """Function to execute and handle a request"""
@@ -194,8 +203,11 @@ class ErieConnect(object):
 
             if response.status_code == 200:
                 return ErieConnect.Response(headers=response.headers, content=response.json())
+            elif response.status_code == 401:
+                self._auth = None
+                response.raise_for_status()
 
-            # We got a 400, 401 or 404 ...
+            # We got other error...
             raise RequestException(response)
 
         except (RequestException, JSONDecodeError) as exception:
