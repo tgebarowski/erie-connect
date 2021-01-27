@@ -7,6 +7,11 @@ erie_connect - Erie Connect cloud client
 
 Unofficial Python client to interact with Erie Connect cloud to retrieve information from IQsoft 26 water softener.
 
+
+For Home Assistant integration check this repository:
+
+https://github.com/tgebarowski/erie-watertreatment-homeassistant
+
 Installation
 ------------
 
