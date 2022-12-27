@@ -29,7 +29,7 @@ class ErieConnect(object):
         self._password = password
         self._auth = auth
         self._device = device
-        self._base_url = "https://connectmysoftenerapi.pentair.eu/api/erieapp/v1"
+        self._base_url = "https://connectmysoftenerapi.pentair.eu/api/erieapp/"
         self._api = "v1"
         self._session = Session()
         self._session.verify = False
