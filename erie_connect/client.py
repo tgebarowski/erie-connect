@@ -177,8 +177,8 @@ class ErieConnect(object):
 
     def _execute_request(self, method, url, params, **kwargs):
         """Function to execute and handle a request"""
-        headers = {'User-Agent': 'App/2.1.1 (iPhone; iOS 13.3.1; Scale/2.0.0)',
-                   'app_version': '2.1.1',
+        headers = {'User-Agent': 'App/3.5.1 (iPhone; iOS 15.1.1; Scale/2.0.0)',
+                   'app_version': '3.5.1',
                    'language': 'en'}
         try:
             if method == "GET":
