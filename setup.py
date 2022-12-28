@@ -15,7 +15,7 @@ def read(filename):
 
 setup(
     name="erie_connect",
-    version="0.4.3",
+    version="0.4.4",
     url="https://github.com/tgebarowski/erie-connect",
     license='MIT',
 
